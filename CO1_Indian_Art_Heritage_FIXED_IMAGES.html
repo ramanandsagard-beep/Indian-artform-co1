@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CO1 - Indian Art Heritage</title>
+<style>
+:root{
+  --ink:#24180f; --muted:#6f5a49; --paper:#fffaf1; --cream:#f5ead7;
+  --terracotta:#b84a32; --saffron:#d8892f; --indigo:#274c77; --green:#426b50;
+  --gold:#c59a3a; --white:#fff; --shadow:0 12px 35px rgba(65,38,16,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Georgia,"Times New Roman",serif;color:var(--ink);
+  background:linear-gradient(135deg,#fffaf1 0%,#f7eddc 50%,#fffaf1 100%);
+}
+nav{
+  position:sticky;top:0;z-index:20;background:rgba(36,24,15,.96);
+  padding:13px 5%;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+}
+nav .brand{color:#ffe7bb;font-weight:bold;margin-right:auto;letter-spacing:.5px}
+nav a{color:#fff3df;text-decoration:none;padding:8px 12px;border-radius:20px;font-family:Arial,sans-serif;font-size:14px}
+nav a:hover{background:#6f321f}
+.hero{
+  min-height:74vh;display:grid;place-items:center;text-align:center;padding:70px 7%;
+  background:
+    radial-gradient(circle at 20% 25%,rgba(216,137,47,.25),transparent 25%),
+    radial-gradient(circle at 80% 60%,rgba(39,76,119,.15),transparent 25%);
+}
+.hero h1{font-size:clamp(42px,7vw,78px);margin:10px 0;color:#542818}
+.hero p{font:18px/1.7 Arial,sans-serif;color:var(--muted);max-width:820px;margin:auto}
+.badges{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:25px 0}
+.badge{padding:9px 15px;border-radius:30px;background:#fff;border:1px solid #e6d5bd;font:700 13px Arial,sans-serif}
+section{padding:75px 6%;max-width:1250px;margin:auto}
+.section-title{text-align:center;margin-bottom:42px}
+.section-title .eyebrow{font:700 12px Arial,sans-serif;letter-spacing:2px;color:var(--terracotta);text-transform:uppercase}
+.section-title h2{font-size:40px;margin:8px 0;color:#542818}
+.section-title p{font:16px/1.6 Arial,sans-serif;color:var(--muted);max-width:750px;margin:auto}
+.timeline{
+  position:relative;margin:35px auto;max-width:1100px;
+}
+.timeline:before{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:4px;background:linear-gradient(var(--saffron),var(--terracotta),var(--indigo));transform:translateX(-50%);
+}
+.t-item{position:relative;width:50%;padding:15px 45px 30px}
+.t-item:nth-child(odd){left:0;text-align:right}
+.t-item:nth-child(even){left:50%}
+.t-dot{
+  position:absolute;top:27px;width:18px;height:18px;background:#fff;border:5px solid var(--terracotta);
+  border-radius:50%;z-index:2;box-shadow:0 0 0 5px rgba(184,74,50,.12)
+}
+.t-item:nth-child(odd) .t-dot{right:-9px}
+.t-item:nth-child(even) .t-dot{left:-9px}
+.card{
+  background:rgba(255,255,255,.88);border:1px solid #ead8bf;border-radius:18px;padding:22px;
+  box-shadow:var(--shadow);transition:.25s;cursor:pointer
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(65,38,16,.17)}
+.art-thumb{height:180px;border-radius:13px;margin-bottom:15px;overflow:hidden;background:#eee}
+.art-thumb img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .35s ease}
+.card:hover .art-thumb img{transform:scale(1.04)}
+.art-credit{font:11px/1.4 Arial,sans-serif;color:#8a735f;margin-top:7px}
+.year{display:inline-block;color:#fff;background:var(--terracotta);padding:5px 10px;border-radius:20px;font:700 12px Arial,sans-serif}
+.card h3{margin:10px 0 7px;font-size:23px}
+.card p{font:14px/1.55 Arial,sans-serif;color:var(--muted)}
+.map-wrap{
+  display:grid;grid-template-columns:1.25fr .75fr;gap:28px;align-items:stretch
+}
+.map-panel,.info-panel{
+  background:#fff;border:1px solid #ead8bf;border-radius:22px;box-shadow:var(--shadow);padding:22px
+}
+.map-panel svg{width:100%;height:auto;display:block}
+.state{fill:#ead6b7;stroke:#9e7b57;stroke-width:2}
+.marker{cursor:pointer}
+.marker circle{fill:var(--terracotta);stroke:#fff;stroke-width:4;transition:.2s}
+.marker:hover circle,.marker.active circle{fill:var(--indigo);r:11}
+.marker text{font:700 13px Arial,sans-serif;fill:#4b2d1c}
+.info-panel h3{font-size:28px;margin:5px 0 10px;color:#542818}
+.info-panel p{font:15px/1.65 Arial,sans-serif;color:var(--muted)}
+.info-chip{display:inline-block;padding:7px 10px;background:#f4ead9;border-radius:15px;font:700 12px Arial,sans-serif;margin:4px 4px 4px 0}
+.fusion-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+.fusion-card{background:#fff;border:1px solid #ead8bf;border-radius:22px;padding:25px;box-shadow:var(--shadow)}
+.fusion-card h3{margin-top:0;font-size:26px}
+.fusion-card p,.fusion-card li{font:15px/1.65 Arial,sans-serif;color:var(--muted)}
+.artboard{
+  background:#f7e6c9;border:8px solid #6c3a20;border-radius:14px;padding:10px;
+  box-shadow:inset 0 0 0 2px #d7ad70;overflow:hidden
+}
+.artboard svg{display:block;width:100%;height:auto;background:#f6e3bf}
+.legend{display:flex;gap:15px;flex-wrap:wrap;margin-top:15px;font:13px Arial,sans-serif}
+.legend span{display:flex;align-items:center;gap:6px}
+.dot{width:13px;height:13px;border-radius:50%;display:inline-block}
+.dot.w{background:#24180f}.dot.k{background:#b84a32}.dot.f{background:#274c77}
+button{
+  border:0;background:var(--terracotta);color:#fff;padding:11px 17px;border-radius:25px;
+  cursor:pointer;font-weight:bold
+}
+button:hover{background:#8f3523}
+footer{background:#24180f;color:#f8e9d3;text-align:center;padding:35px 6%;font:14px Arial,sans-serif}
+.modal{
+  position:fixed;inset:0;background:rgba(20,10,4,.72);display:none;place-items:center;z-index:50;padding:20px
+}
+.modal.show{display:grid}
+.modal-box{background:#fffaf1;max-width:700px;width:100%;border-radius:22px;padding:30px;position:relative;max-height:90vh;overflow:auto}
+.close{position:absolute;right:18px;top:15px;background:#24180f;width:36px;height:36px;padding:0;border-radius:50%}
+.modal-box h2{margin-top:0;color:#542818;font-size:30px}
+.modal-box p,.modal-box li{font:15px/1.7 Arial,sans-serif;color:#5e4c3c}
+.note{padding:15px 18px;background:#fff2d8;border-left:5px solid var(--saffron);border-radius:10px;font:14px/1.6 Arial,sans-serif;color:#60452d}
+@media(max-width:850px){
+  .timeline:before{left:18px}
+  .t-item,.t-item:nth-child(even),.t-item:nth-child(odd){left:0;width:100%;padding-left:50px;text-align:left}
+  .t-item:nth-child(odd) .t-dot,.t-item:nth-child(even) .t-dot{left:9px;right:auto}
+  .map-wrap,.fusion-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">INDIAN ART HERITAGE · CO1</div>
+  <a href="#timeline">Interactive Timeline</a>
+  <a href="#map">Interactive Art Map</a>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="badges">
+      <span class="badge">CLA-I ASSIGNMENT</span>
+      <span class="badge">CO1 · 20 MARKS</span>
+    </div>
+    <h1>Indian Art Through Time & Space</h1>
+    <p>Explore important Indian art traditions through an interactive historical timeline and a regional art map.</p>
+  </div>
+</header>
+
+<section id="timeline">
+  <div class="section-title">
+    <div class="eyebrow">CO1 · Assignment 1</div>
+    <h2>Interactive Timeline with Artifacts</h2>
+    <p>Major examples from different periods of Indian art. Select any artifact for its historical context and significance.</p>
+  </div>
+
+  <div class="timeline">
+    <article class="t-item">
+      <span class="t-dot"></span>
+      <div class="card" onclick="openModal('dancing')">
+        <span class="year">c. 2500 BCE</span>
+        <div class="art-thumb">
+          <img alt="Dancing Girl reference image"
+               src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Dancing_girl_of_Mohenjo-daro.jpg">
+        </div>
+        <div class="art-credit">Image: Wikimedia Commons</div><h3>Dancing Girl</h3>
+        <p>Indus Valley Civilization · Bronze sculpture · Mohenjo-daro</p>
+        <button>View Artifact</button>
+      </div>
+    </article>
+
+    <article class="t-item">
+      <span class="t-dot"></span>
+      <div class="card" onclick="openModal('lion')">
+        <span class="year">3rd century BCE</span>
+        <div class="art-thumb">
+          <img alt="Lion Capital of Ashoka reference image"
+               src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Lion_capital_of_Ashoka%2C_Sarnath.jpg">
+        </div>
+        <div class="art-credit">Image: Wikimedia Commons</div><h3>Lion Capital of Ashoka</h3>
+        <p>Mauryan period · Sarnath · Polished sandstone sculpture</p>
+        <button>View Artifact</button>
+      </div>
+    </article>
+
+    <article class="t-item">
+      <span class="t-dot"></span>
+      <div class="card" onclick="openModal('ajanta')">
+        <span class="year">c. 5th century CE</span>
+        <div class="art-thumb">
+          <img alt="Ajanta cave painting reference image"
+               src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ajanta%20Padmapani.jpg">
+        </div>
+        <div class="art-credit">Image: Wikimedia Commons</div><h3>Ajanta Cave Paintings</h3>
+        <p>Vakataka period · Maharashtra · Buddhist mural tradition</p>
+        <button>View Artifact</button>
+      </div>
+    </article>
+
+    <article class="t-item">
+      <span class="t-dot"></span>
+      <div class="card" onclick="openModal('nataraja')">
+        <span class="year">10th–12th century CE</span>
+        <div class="art-thumb">
+          <img alt="Chola Nataraja reference image"
+               src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Nataraja%2C_Chola_period_bronze%2C_11th_century%2C_Government_Museum%2C_Chennai.jpg/960px-Nataraja%2C_Chola_period_bronze%2C_11th_century%2C_Government_Museum%2C_Chennai.jpg">
+        </div>
+        <div class="art-credit">Image: Wikimedia Commons</div><h3>Chola Nataraja</h3>
+        <p>Chola period · Tamil Nadu · Bronze casting tradition</p>
+        <button>View Artifact</button>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+<section id="map">
+  <div class="section-title">
+    <div class="eyebrow">CO1 · Assignment 2</div>
+    <h2>Interactive Indian Art Map</h2>
+    <p>Explore selected places connected with major artistic traditions. Click a marker to update the information panel.</p>
+  </div>
+
+  <div class="map-wrap">
+    <div class="map-panel">
+      <svg viewBox="0 0 650 760" aria-label="Stylized map of India with art locations">
+        <path class="state" d="M260 32 L330 55 L360 96 L405 110 L438 151 L492 181 L474 220 L510 260
+        L485 301 L512 338 L486 380 L510 425 L482 461 L455 504 L424 539 L402 581
+        L369 610 L350 657 L315 699 L277 665 L250 622 L219 600 L202 560 L170 532
+        L157 486 L130 455 L145 414 L122 374 L145 330 L130 292 L157 253 L148 218
+        L181 187 L173 145 L210 123 L222 82 Z"/>
+        <text x="285" y="385" text-anchor="middle" font-family="Georgia" font-size="30" fill="#8b6a4a" opacity=".7">INDIA</text>
+
+        <g class="marker" onclick="selectPlace('bhimbetka')" transform="translate(290,515)">
+          <circle r="9"></circle><text x="15" y="5">Bhimbetka</text>
+        </g>
+        <g class="marker" onclick="selectPlace('ajantaMap')" transform="translate(220,455)">
+          <circle r="9"></circle><text x="-92" y="5">Ajanta</text>
+        </g>
+        <g class="marker" onclick="selectPlace('warli')" transform="translate(192,408)">
+          <circle r="9"></circle><text x="-68" y="5">Warli</text>
+        </g>
+        <g class="marker" onclick="selectPlace('madhubani')" transform="translate(410,250)">
+          <circle r="9"></circle><text x="15" y="5">Madhubani</text>
+        </g>
+        <g class="marker" onclick="selectPlace('kalamkari')" transform="translate(285,575)">
+          <circle r="9"></circle><text x="-92" y="5">Kalamkari</text>
+        </g>
+        <g class="marker" onclick="selectPlace('tanjore')" transform="translate(305,640)">
+          <circle r="9"></circle><text x="15" y="5">Thanjavur</text>
+        </g>
+      </svg>
+      <div class="note">Tip: Use the markers as a visual tour. The map is intentionally simplified for educational presentation rather than geographic navigation.</div>
+    </div>
+
+    <div class="info-panel" id="placeInfo">
+      <span class="info-chip">Select a location</span>
+      <h3>Indian Art Across Regions</h3>
+      <p>Different landscapes, communities, religions, courts and craft traditions shaped distinctive forms of Indian art. Choose a marker on the map to explore one location.</p>
+      <div class="info-chip">Prehistoric</div>
+      <div class="info-chip">Buddhist</div>
+      <div class="info-chip">Folk</div>
+      <div class="info-chip">Textile / Kalamkari</div>
+      <div class="info-chip">Classical / Temple</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>CO1 · Indian Art Heritage</strong><br>
+  Interactive Timeline + Interactive Art Map
+</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const artifacts = {
+  dancing:{
+    title:"Dancing Girl · Indus Valley Civilization",
+    text:`The bronze Dancing Girl is associated with Mohenjo-daro and is generally dated to the Mature Harappan period, around 2500 BCE. The small lost-wax bronze sculpture is notable for its confident stance, jewellery and simplified human form. It demonstrates the technical skill of Harappan metalworkers and gives evidence of figurative representation in the Indus Valley Civilization.`,
+    points:["Period: Mature Harappan","Material: Bronze","Location: Mohenjo-daro","Technique: Lost-wax casting"]
+  },
+  lion:{
+    title:"Lion Capital of Ashoka · Mauryan Period",
+    text:`The Lion Capital from Sarnath dates to the reign of Ashoka in the 3rd century BCE. It consists of four back-to-back lions above a circular abacus decorated with animals and wheels. The capital is associated with Buddhist and imperial symbolism and the wheel motif became an important national symbol in modern India.`,
+    points:["Period: Mauryan","Material: Polished sandstone","Location: Sarnath","Theme: Imperial and Buddhist symbolism"]
+  },
+  ajanta:{
+    title:"Ajanta Cave Paintings · Maharashtra",
+    text:`The Ajanta caves preserve major Buddhist paintings and sculptures. Many of the surviving paintings belong broadly to the 5th century CE, especially the Vakataka period. The murals depict Buddhist narratives, courtly life, figures, plants and animals with expressive line, colour and modelling.`,
+    points:["Period: Mainly 5th century CE","Location: Maharashtra","Tradition: Buddhist mural painting","Themes: Jataka stories and sacred narratives"]
+  },
+  nataraja:{
+    title:"Chola Nataraja · Tamil Nadu",
+    text:`Chola-period bronze images of Shiva as Nataraja are among the best-known achievements of South Indian metal casting. The dancing form represents Shiva's cosmic dance and combines movement, balance and symbolic gestures. The lost-wax process allowed artists to create complex three-dimensional forms.`,
+    points:["Period: Chola era","Region: Tamil Nadu","Material: Bronze","Technique: Lost-wax casting"]
+  },
+  mughal:{
+    title:"Mughal Miniature Painting",
+    text:`Mughal miniature painting developed in imperial workshops from the 16th century onward. It combined Persianate manuscript traditions with Indian subjects and artists' observation of people, animals and plants. Court scenes, portraits, battles, hunting scenes and illustrated manuscripts became important subjects.`,
+    points:["Period: 16th–18th centuries","Medium: Opaque pigments on manuscript surfaces","Influences: Persian and Indian traditions","Features: Fine detail and controlled composition"]
+  }
+};
+
+function openModal(key){
+  const a=artifacts[key];
+  document.getElementById("modalContent").innerHTML =
+    `<h2>${a.title}</h2><p>${a.text}</p><h3>Key facts</h3><ul>${a.points.map(x=>`<li>${x}</li>`).join("")}</ul>`;
+  document.getElementById("modal").classList.add("show");
+}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+
+const places={
+ bhimbetka:{name:"Bhimbetka, Madhya Pradesh",period:"Prehistoric art",desc:"The rock shelters of Bhimbetka preserve prehistoric paintings depicting animals, people, hunting scenes and community activities. They provide evidence of long-term human occupation and artistic expression in central India.",tags:["Rock art","Prehistoric","Cave paintings"]},
+ ajantaMap:{name:"Ajanta, Maharashtra",period:"Buddhist mural tradition",desc:"Ajanta is known for rock-cut Buddhist caves containing sculptures and paintings. The surviving murals include religious narratives as well as detailed representations of people, animals, clothing and courtly life.",tags:["Buddhist art","Murals","Rock-cut caves"]},
+ warli:{name:"Warli region, Maharashtra",period:"Folk painting",desc:"Warli painting is associated with communities in Maharashtra. Traditional compositions use simple geometric forms such as circles, triangles and lines to depict people, animals, farming, dancing and village life.",tags:["Folk art","Geometric forms","Community life"]},
+ madhubani:{name:"Madhubani, Bihar",period:"Mithila painting",desc:"Madhubani or Mithila painting is a regional painting tradition of Bihar. Artists use strong outlines, patterned surfaces, symbolic plants and animals, and subjects connected with ritual, mythology and everyday life.",tags:["Mithila","Folk art","Pattern"]},
+ kalamkari:{name:"Kalamkari region, Andhra Pradesh & Telangana",period:"Hand-painted textile tradition",desc:"Kalamkari refers to hand-painted and hand-drawn textile traditions associated particularly with Andhra Pradesh and Telangana. Floral forms, narrative scenes and naturalistic motifs are common features.",tags:["Textile art","Natural dyes","Narrative"]},
+ tanjore:{name:"Thanjavur, Tamil Nadu",period:"South Indian painting",desc:"Thanjavur painting is known for devotional subjects, rich ornamentation, raised decoration and the use of gold foil. It developed as a distinctive court and devotional painting tradition in the Thanjavur region.",tags:["Devotional art","Gold foil","Tamil Nadu"]}
+};
+
+function selectPlace(key){
+  const p=places[key];
+  document.getElementById("placeInfo").innerHTML =
+    `<span class="info-chip">${p.period}</span><h3>${p.name}</h3><p>${p.desc}</p>${p.tags.map(t=>`<span class="info-chip">${t}</span>`).join("")}`;
+  document.querySelectorAll(".marker").forEach(m=>m.classList.remove("active"));
+  const clicked=[...document.querySelectorAll(".marker")].find(m=>m.getAttribute("onclick")?.includes(key));
+  if(clicked)clicked.classList.add("active");
+}
+</script>
+</body>
+</html>
